@@ -83,6 +83,28 @@ describe('app routes', () => {
           .expect(200);
           
         expect(data.body).toEqual(expectation);
+
+
       });
+
+      test('returns completed updated to true for Jon\'s item', async() => {
+
+
+      const expectation = {
+        'id': 4,
+        'todo': 'laundry',
+        'completed': true,
+        'owner_id': 2
+      };
+
+      const data = await fakeRequest(app)
+        .put('/api/todo/4')
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+      console.log(data.body[0])
+      console.log(expectation)
+      expect(data.body[0]).toEqual(expectation);
+    });
   });
 });
