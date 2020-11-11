@@ -23,7 +23,7 @@ describe('app routes', () => {
         });
       
       token = signInData.body.token; // eslint-disable-line
-  
+
       return done();
     });
   
@@ -31,35 +31,58 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns animals', async() => {
 
-      const expectation = [
-        {
-          'id': 1,
-          'name': 'bessie',
-          'coolfactor': 3,
-          'owner_id': 1
-        },
-        {
-          'id': 2,
-          'name': 'jumpy',
-          'coolfactor': 4,
-          'owner_id': 1
-        },
-        {
-          'id': 3,
-          'name': 'spot',
-          'coolfactor': 10,
-          'owner_id': 1
-        }
-      ];
+      test('returns todo for Jon', async() => {
 
-      const data = await fakeRequest(app)
-        .get('/animals')
-        .expect('Content-Type', /json/)
-        .expect(200);
-
-      expect(data.body).toEqual(expectation);
-    });
+        const expectation = [
+          {
+            'id': 4,
+            'todo': 'laundry',
+            'completed': false,
+            'owner_id': 2
+          },
+          {
+            'id': 5,
+            'todo': 'chop onions',
+            'completed': false,
+            'owner_id': 2
+          },
+          {
+            'id': 6,
+            'todo': 'drink water',
+            'completed': false,
+            'owner_id': 2
+          },
+        ];
+  
+        await fakeRequest(app)
+          .post('/api/todo')
+          .send(expectation[0])
+          .set('Authorization', token)
+          .expect('Content-Type', /json/)
+          .expect(200);
+  
+        await fakeRequest(app)
+          .post('/api/todo')
+          .send(expectation[1])
+          .set('Authorization', token)
+          .expect('Content-Type', /json/)
+          .expect(200);
+  
+        await fakeRequest(app)
+          .post('/api/todo')
+          .send(expectation[2])
+          .set('Authorization', token)
+          .expect('Content-Type', /json/)
+          .expect(200);
+  
+        const data = await fakeRequest(app)
+          .get('/api/todo')
+          .set('Authorization', token)
+          .expect('Content-Type', /json/)
+          .expect(200);
+          
+        expect(data.body).toEqual(expectation);
+      });
   });
 });

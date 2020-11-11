@@ -1,14 +1,14 @@
 module.exports = [
   {
     todo: 'wash the dishes',
-    completed: false,
+    completed: false
 },
 {
   todo: 'feed dog',
-  completed: false,
+  completed: false
 },
 {
   todo: 'take shower',
-  completed: false,
+  completed: false
 }
 ];
